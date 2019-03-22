@@ -22,8 +22,8 @@ namespace Code_Goblins
             roomDict.TryGetValue(id, out room);
             return room;
         }
-
-        public void PrintCurrentRoom(Room room)
+      
+     public void PrintCurrentRoom(Room room)
         {
             string[] topWall = new string[(room.SizeX + 2)];
             for (int i = 0; i <= (room.SizeX + 1); i++)
@@ -74,12 +74,18 @@ namespace Code_Goblins
             }
             string bottomWallFull = String.Join("", bottomWall);
             Console.WriteLine($"{bottomWallFull}");
-        }
+}
+        public void ExitGame()
+        {
+            Exit cornerExit = new Exit(3, 1, true, 2, false, 0, true, 0, false, 0);
+            List<Exit> exits = new List<Exit>();
+            exits.Add(cornerExit);
+            Room hallOne = new Room(0, exits, "Entrance Hallway", "Your are leaving Gobo50.", 1, 1);
 
         public void HallOne()
         {
-            Exit exitGame = new Exit(1, 1, false, true, false, false);
-            Exit cornerExit = new Exit(3, 1, true, false, true, false);
+            Exit exitGame = new Exit(1, 1, false, 0, true, 0, false, 0, false, 0);
+            Exit cornerExit = new Exit(3, 1, true, 2, false, 0, true, 0, false, 0);
             List<Exit> exits = new List<Exit>();
             exits.Add(exitGame);
             exits.Add(cornerExit);
@@ -88,6 +94,14 @@ namespace Code_Goblins
         }
 
 
+        public void HallTwo()
+        {
+            Exit cornerExit = new Exit(1, 1, false, 0, true, 1, false, 0, false, 0);
+            List<Exit> exits = new List<Exit>();
+            exits.Add(cornerExit);
+            Room hallOne = new Room(2, exits, "Entrance Hallway", "Your are in the entrace to Gobo50.", 3, 1);
+            roomDict.Add(hallOne.RoomID, hallOne);
+        }
 
     }
 }
