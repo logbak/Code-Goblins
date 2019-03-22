@@ -52,7 +52,7 @@ namespace Code_Goblins
                     {
                         room.PosX--;
                         return room;
-                    }               
+                    }
                     else if (CheckExits(room, "west") > 0)
                     {
                         return mapRepo.GetRoomByID(CheckExits(room, "west"));
@@ -104,7 +104,10 @@ namespace Code_Goblins
                                 return exit.SouthID;
                             }
                             break;
-
-
+                    }
+                }
+            }
+            return 0;
+        }
     }
 }

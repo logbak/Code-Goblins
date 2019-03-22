@@ -81,6 +81,7 @@ namespace Code_Goblins
             List<Exit> exits = new List<Exit>();
             exits.Add(cornerExit);
             Room hallOne = new Room(0, exits, "Entrance Hallway", "Your are leaving Gobo50.", 1, 1);
+        }
 
         public void HallOne()
         {
