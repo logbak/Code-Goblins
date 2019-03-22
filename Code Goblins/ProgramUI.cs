@@ -15,7 +15,7 @@ namespace Code_Goblins
         {
             Room room = new Room();
             room = mapRepo.GetRoomByID(1);
-            playerRepo.PrintCurrentRoom(room);
+            mapRepo.PrintCurrentRoom(room);
             Console.ReadKey();
         }
     }

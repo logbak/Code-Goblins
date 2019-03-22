@@ -8,114 +8,116 @@ namespace Code_Goblins
 {
     public class PlayerRepository
     {
+        MapRepository mapRepo = new MapRepository();
+
         public PlayerRepository()
         {
 
         }
-        
-        //public Room PlayerControl(Room room)
-        //{
-        //    string inputKey = Console.ReadKey().ToString().ToLower();
-        //    switch (inputKey)
-        //    {
-        //        case "w":
-        //            if (room.PosY < room.SizeY)
-        //            {
-        //                room.PosY++;
-        //                return room;
-        //            }
-        //            else if (CheckExits(room, "north"))
-        //            {
 
-        //            }
-                    
-        //            Console.WriteLine("You cannot go north here.");
-        //            return room;
-        //        case "s":
-        //            if (room.PosY <= room.SizeY && room.PosY != 1)
-        //            {
-        //                room.PosY--;
-        //                return room;
-        //            }
-        //            else if (CheckExits(room, "south"))
-        //            {
-
-        //            }
-
-        //            Console.WriteLine("You cannot go south here.");
-        //            return room;
-        //        case "a":
-        //            if (room.PosX <= room.SizeX && room.PosX != 1)
-        //            {
-        //                room.PosX--;
-        //                return room;
-        //            }
-        //            else if (CheckExits(room, "west"))
-        //            {
-
-        //            }
-
-        //            Console.WriteLine("You cannot go west here.");
-        //            return room;
-        //        case "d":
-        //            if (room.PosX < room.SizeX)
-        //            {
-        //                room.PosX++;
-        //                return room;
-        //            }
-        //            else if (CheckExits(room, "east"))
-        //            {
-
-        //            }
-
-        //            Console.WriteLine("You cannot go east here.");
-        //            return room;
-        //    }
-        //    return room;
-        //}
-
-        //public bool CheckExits(Room room, string direction)
-        //{
-        //    foreach (Exit exit in room.ExitList)
-        //    {
-        //        if (room.PosX == exit.PosX && room.PosY == exit.PosY)
-        //        {
-
-        //        }
-        //    }
-        //}
-
-        public void PrintCurrentRoom(Room room)
+        public Room PlayerControl(Room room)
         {
-            string[] topWall = new string[(room.SizeX + 3)];
-            for (int i = 0; i <= (room.SizeX + 2); i++)
+            string inputKey = Console.ReadKey().ToString().ToLower();
+            switch (inputKey)
             {
-                topWall[i] = "\u2584";
-            }
-            string topWallFull = String.Join("", topWall);
-            Console.WriteLine($"{topWallFull}");
+                case "w":
+                    if (room.PosY < room.SizeY)
+                    {
+                        room.PosY++;
+                        return room;
+                    }
+                    else if (CheckExits(room, "north") > 0)
+                    {
+                        return mapRepo.GetRoomByID(CheckExits(room, "north"));
+                    }
+                    Console.WriteLine("You cannot go north here.");
+                    return room;
 
-            string[] sideWalls = new string[(room.SizeX + 2)];
-            string[] player = new string[(room.SizeX + 2)];
-            sideWalls[0] = "\u2588";
-            sideWalls[(room.SizeX +1)] = "\u2588";
-            player[0] = "\u2588";
-            player[(room.SizeX + 1)] = "\u2588";
-            player[(room.PosX + 1)] = "X";
-            string sideWallsFull = String.Join(" ", sideWalls);
-            for (int i = 0; i <= room.SizeY; i++)
-            {
-                Console.WriteLine(sideWallsFull);
-            }
+                case "s":
+                    if (room.PosY <= room.SizeY && room.PosY != 1)
+                    {
+                        room.PosY--;
+                        return room;
+                    }
+                    else if (CheckExits(room, "south") > 0)
+                    {
+                        return mapRepo.GetRoomByID(CheckExits(room, "south"));
+                    }
+                    Console.WriteLine("You cannot go south here.");
+                    return room;
 
-            string[] bottomWall = new string[(room.SizeX + 3)];
-            for (int i = 0; i <= (room.SizeX + 2); i++)
-            {
-                bottomWall[i] = "\u2580";
+                case "a":
+                    if (room.PosX <= room.SizeX && room.PosX != 1)
+                    {
+                        room.PosX--;
+                        return room;
+                    }               
+                    else if (CheckExits(room, "west") > 0)
+                    {
+                        return mapRepo.GetRoomByID(CheckExits(room, "west"));
+                    }
+                    Console.WriteLine("You cannot go west here.");
+                    return room;
+
+                case "d":
+                    if (room.PosX < room.SizeX)
+                    {
+                        room.PosX++;
+                        return room;
+                    }
+                    else if (CheckExits(room, "east") > 0)
+                    {
+                        return mapRepo.GetRoomByID(CheckExits(room, "east"));
+                    }
+                    Console.WriteLine("You cannot go east here.");
+                    return room;
             }
-            string bottomWallFull = String.Join("", bottomWall);
-            Console.WriteLine($"{bottomWallFull}");
+            return room;
         }
 
+        public int CheckExits(Room room, string direction)
+        {
+            foreach (Exit exit in room.ExitList)
+            {
+                if (room.PosX == exit.PosX && room.PosY == exit.PosY)
+                {
+                    switch (direction)
+                    {
+                        case "north":
+                            if (exit.North == true)
+                            {
+                                return exit.NorthID;
+                            }
+                            break;
+
+                        case "south":
+                            if (exit.South == true)
+                            {
+                                return exit.SouthID;
+                            }
+                            break;
+
+                        case "east":
+                            if (exit.East == true)
+                            {
+                                return exit.SouthID;
+                            }
+                            break;
+
+                        case "west":
+                            if (exit.West == true)
+                            {
+                                return exit.SouthID;
+                            }
+                            break;
+
+                        default:
+                            return 0;
+
+                    }
+                }
+            }
+            return 0;
+        }
     }
 }
