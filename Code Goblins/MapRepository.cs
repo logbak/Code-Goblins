@@ -22,8 +22,8 @@ namespace Code_Goblins
             roomDict.TryGetValue(id, out room);
             return room;
         }
-      
-     public void PrintCurrentRoom(Room room)
+
+        public void PrintCurrentRoom(Room room)
         {
             string[] topWall = new string[(room.SizeX + 2)];
             for (int i = 0; i <= (room.SizeX + 1); i++)

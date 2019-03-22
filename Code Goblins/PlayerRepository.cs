@@ -18,23 +18,10 @@ namespace Code_Goblins
 
         public Room PlayerControl(Room room)
         {
-            string inputKey = Console.ReadKey().ToString().ToLower();
-            switch (inputKey)
+            var inputKey = Console.ReadKey();
+            switch (inputKey.Key)
             {
-                case "w":
-                    if (room.PosY < room.SizeY)
-                    {
-                        room.PosY++;
-                        return room;
-                    }
-                    else if (CheckExits(room, "north") > 0)
-                    {
-                        return mapRepo.GetRoomByID(CheckExits(room, "north"));
-                    }
-                    Console.WriteLine("You cannot go north here.");
-                    return room;
-
-                case "s":
+                case ConsoleKey.W:
                     if (room.PosY <= room.SizeY && room.PosY != 1)
                     {
                         room.PosY--;
@@ -44,10 +31,21 @@ namespace Code_Goblins
                     {
                         return mapRepo.GetRoomByID(CheckExits(room, "south"));
                     }
-                    Console.WriteLine("You cannot go south here.");
                     return room;
 
-                case "a":
+                case ConsoleKey.S:
+                    if (room.PosY < room.SizeY)
+                    {
+                        room.PosY++;
+                        return room;
+                    }
+                    else if (CheckExits(room, "north") > 0)
+                    {
+                        return mapRepo.GetRoomByID(CheckExits(room, "north"));
+                    }
+                    return room;
+
+                case ConsoleKey.A:
                     if (room.PosX <= room.SizeX && room.PosX != 1)
                     {
                         room.PosX--;
@@ -57,10 +55,9 @@ namespace Code_Goblins
                     {
                         return mapRepo.GetRoomByID(CheckExits(room, "west"));
                     }
-                    Console.WriteLine("You cannot go west here.");
                     return room;
 
-                case "d":
+                case ConsoleKey.D:
                     if (room.PosX < room.SizeX)
                     {
                         room.PosX++;
@@ -70,7 +67,6 @@ namespace Code_Goblins
                     {
                         return mapRepo.GetRoomByID(CheckExits(room, "east"));
                     }
-                    Console.WriteLine("You cannot go east here.");
                     return room;
             }
             return room;
