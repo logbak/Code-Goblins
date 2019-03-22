@@ -12,7 +12,7 @@ namespace Code_Goblins
         {
 
         }
-        
+
         //public Room PlayerControl(Room room)
         //{
         //    string inputKey = Console.ReadKey().ToString().ToLower();
@@ -28,7 +28,7 @@ namespace Code_Goblins
         //            {
 
         //            }
-                    
+
         //            Console.WriteLine("You cannot go north here.");
         //            return room;
         //        case "s":
@@ -84,38 +84,6 @@ namespace Code_Goblins
         //        }
         //    }
         //}
-
-        public void PrintCurrentRoom(Room room)
-        {
-            string[] topWall = new string[(room.SizeX + 3)];
-            for (int i = 0; i <= (room.SizeX + 2); i++)
-            {
-                topWall[i] = "\u2584";
-            }
-            string topWallFull = String.Join("", topWall);
-            Console.WriteLine($"{topWallFull}");
-
-            string[] sideWalls = new string[(room.SizeX + 2)];
-            string[] player = new string[(room.SizeX + 2)];
-            sideWalls[0] = "\u2588";
-            sideWalls[(room.SizeX +1)] = "\u2588";
-            player[0] = "\u2588";
-            player[(room.SizeX + 1)] = "\u2588";
-            player[(room.PosX + 1)] = "X";
-            string sideWallsFull = String.Join(" ", sideWalls);
-            for (int i = 0; i <= room.SizeY; i++)
-            {
-                Console.WriteLine(sideWallsFull);
-            }
-
-            string[] bottomWall = new string[(room.SizeX + 3)];
-            for (int i = 0; i <= (room.SizeX + 2); i++)
-            {
-                bottomWall[i] = "\u2580";
-            }
-            string bottomWallFull = String.Join("", bottomWall);
-            Console.WriteLine($"{bottomWallFull}");
-        }
 
     }
 }

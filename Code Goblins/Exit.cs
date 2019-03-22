@@ -11,6 +11,7 @@ namespace Code_Goblins
         public int PosX { get; set; }
         public int PosY { get; set; }
         public bool North { get; set; }
+        public int NorthID { get; set; }
         public bool South { get; set; }
         public bool East { get; set; }
         public bool West { get; set; }

@@ -13,9 +13,12 @@ namespace Code_Goblins
 
         public void Run()
         {
+            Room currentRoom = new Room();
             Room room = new Room();
             room = mapRepo.GetRoomByID(1);
-            playerRepo.PrintCurrentRoom(room);
+            room.PosX = 1;
+            room.PosY = 1;
+            mapRepo.PrintCurrentRoom(room);
             Console.ReadKey();
         }
     }
