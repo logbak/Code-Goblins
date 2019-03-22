@@ -15,6 +15,7 @@ namespace Code_Goblins
 
         }
 
+
         public Room PlayerControl(Room room)
         {
             string inputKey = Console.ReadKey().ToString().ToLower();
@@ -104,20 +105,6 @@ namespace Code_Goblins
                             }
                             break;
 
-                        case "west":
-                            if (exit.West == true)
-                            {
-                                return exit.SouthID;
-                            }
-                            break;
 
-                        default:
-                            return 0;
-
-                    }
-                }
-            }
-            return 0;
-        }
     }
 }
