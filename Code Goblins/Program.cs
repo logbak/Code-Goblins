@@ -10,6 +10,8 @@ namespace Code_Goblins
     {
         static void Main(string[] args)
         {
+            ProgramUI program = new ProgramUI();
+            program.Run();
         }
     }
 }
