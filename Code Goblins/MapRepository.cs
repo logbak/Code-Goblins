@@ -150,7 +150,7 @@ namespace Code_Goblins
 
         public void DemoRoom()
         {
-            // create a list of exist to hold each exit
+            // create a list of exits to hold each exit
             List<Exit> exits = new List<Exit>();
             // exit initilization:  (position X, position Y, 4 bools set direction of exit from position, sets room id to move to, new room position X, new room position Y)
             // note each exit represents a single exit door, only set one direction to true
