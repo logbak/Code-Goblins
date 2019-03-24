@@ -45,12 +45,12 @@ Optional:
 
 -Add a toggle for displaying the controls at the top of the screen
 
+
+Strech Goals:
+
 -Add a Console.ForegroundColor property to the Block class
 --Modify the map printing method to print blocks in that color when the map is printed
 See: https://stackoverflow.com/questions/11150332/how-to-change-foreground-color-of-each-letter-in-a-string-in-c-sharp-console
-
-
-Strech Goals:
 
 -Try to get WallBlock class setup so walls can have a size other than 1x1 and print properly
 --currently using Block class to place each interior wall individually
