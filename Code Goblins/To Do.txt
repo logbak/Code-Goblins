@@ -1,0 +1,68 @@
+﻿Main Goals:
+
+-Add Exits to PrintCurrentRoom and it's child methods
+--Exits print correctly on top and bottom walls
+--Will need to edit all methods that print side walls:
+---(PrintCurrentRoom, PrintSideWalls, PrintPlayerPosition, PrintBlockPositions, PrintSingleBlockRow)
+
+-Add interaction switch case under PlayerControl method
+--Set up trigger system using Block IsTrigger bool and PlayerControl method to run a method based on BlockID
+--i.e. When the player hits the interact key "i" and they are next to a interactable block a method will run
+--based on the block they are next to (for example: NPC dialog)
+---This will need a way to choose between blocks if the player is next more than one interactable
+--interaction methods should probably have their own repository
+
+-Add a menu or exit switch case under PlayerControl method
+--When a certain key is pressed a menu will appear with options or the game will asked if you want to exit
+
+-Set up ProgramUI properly
+--Currently only set up to run a basic map printing loop with no exit (console window must be manually closed)
+
+-Set up a player class that holds the players current status
+--i.e. level, health, inventory, etc.
+--Once done interaction methods can interact with this class to progress the game
+
+-Set up a way to lock/unlock doors based on a conditional
+--This could be done by making certain GoToIDs(normally set to the RoomID the exit goes to) tied to a
+--new method called inside the PlayerControl method
+--Alternatively a bool could be added to the Exit class (will required editing previously made Exits/Rooms)
+
+-Create the rest of the map and populate each room with blocks
+
+-Set up win/lose conditions and gameplay loop.
+--Ideas:
+---Doing certain things will increase level and after a certain level is obtained you will win
+---Player health will start at a certain level and go down with certain interactions. If it reaches 0 they will lose
+---Player can regain health by taking certain actions
+---Inventory items obtained could modify the gains/loses from certain interactions?
+---Progress could be tied to obtaining keys items that grant access to rooms necessary to beat the game?
+
+
+Optional:
+
+-Move Room generation methods into their own RoomRepository class
+--MapRepository would be used soley for printing the map out on the console
+
+-Add a toggle for displaying the controls at the top of the screen
+
+-Add a Console.ForegroundColor property to the Block class
+--Modify the map printing method to print blocks in that color when the map is printed
+See: https://stackoverflow.com/questions/11150332/how-to-change-foreground-color-of-each-letter-in-a-string-in-c-sharp-console
+
+
+Strech Goals:
+
+-Try to get WallBlock class setup so walls can have a size other than 1x1 and print properly
+--currently using Block class to place each interior wall individually
+--map printing and player control methods will have to be significantly reworked
+--all current maps will need to be edited to include a List<WallBlock> (currently commented out of the Room class)
+--any maps that have interior walls should probably be reworked
+
+-Add minigames for when you interact with certain objects
+--Interacting with computers could bring up an ASCII computer monitor with a game inside that simulates coding
+--An arcade cabinet that plays a mini game would be cool
+
+-Add ASCII art to interactions with NPCs
+--When you start a dialog the map is cleared and you just see an ASCII version
+--of the back of the character's head and the front of the NPC's (as if they are facing eachother)
+--Each time you make a selection the art is reprinted so the dialog is generated in chunks below it

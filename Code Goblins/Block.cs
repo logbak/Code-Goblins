@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Code_Goblins
 {
-    // Used for any object inside a room the player can't pass through
-    // i.e. NPCs(non-player-characters), interior walls, funiture, etc.
+    // Used for any non-wall object inside a room the player can't pass through
+    // i.e. NPCs(non-player-characters), funiture, interior walls etc.
 
     public class Block
     {

@@ -11,6 +11,7 @@ namespace Code_Goblins
         public int RoomID { get; set; }
         public List<Exit> ExitList { get; set; }
         public List<Block> BlockList { get; set; }
+        //public List<WallBlock> WallList { get; set; }
         public string RoomName { get; set; }
         public string Description { get; set; }
         public int PosX { get; set; }
@@ -25,6 +26,7 @@ namespace Code_Goblins
             RoomID = roomID;
             ExitList = exitList;
             BlockList = blockList;
+            //WallList = wallList;
             RoomName = roomName;
             Description = description;
             SizeX = sizeX;

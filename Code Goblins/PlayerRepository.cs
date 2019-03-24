@@ -18,7 +18,12 @@ namespace Code_Goblins
             string direction = "";
             foreach(Block block in room.BlockList)
             {
-                blockList.Add($"To your {direction} is {block.Description}.");
+                if (block.Icon == '?' || block.Icon == '\u2584' || block.Icon == '\u2588' || block.Icon == '\u2580')
+                {
+                    continue;
+                }
+                direction = CheckBlockDirection(room, block);
+                blockList.Add($"{direction} is {block.Description}.");
             }
             View currentView = new View(room.Description, blockList);
             return currentView;
@@ -111,10 +116,11 @@ namespace Code_Goblins
                     return room;
                 case ConsoleKey.V:
                     Console.Clear();
-                    mapRepo.PrintCurrentRoom(room);
                     View view = ViewOfRoom(room);
+                    Console.WriteLine("Controls:\n" + "Use W A S D for movement. Press V to look around.\n\n" + room.RoomName);
+                    mapRepo.PrintCurrentRoom(room);
                     Console.WriteLine(view.CurrentRoomDescription);
-                    foreach(string blockView in view.BlockDescriptionList)
+                    foreach (string blockView in view.BlockDescriptionList)
                     {
                         Console.WriteLine(blockView);
                     }
@@ -176,7 +182,15 @@ namespace Code_Goblins
                         {
                             return true;
                         }
+                        
                     }
+                    //foreach (WallBlock wall in room.WallList)
+                    //{
+                    //    if (room.PosX >= wall.OriginX && room.PosX <= wall.EndX && (room.PosY - 1) == wall.OriginY)
+                    //    {
+                    //        return true;
+                    //    }
+                    //}
                     return false;
                 case "south":
                     foreach (Block blocks in room.BlockList)
@@ -186,6 +200,13 @@ namespace Code_Goblins
                             return true;
                         }
                     }
+                    //foreach (WallBlock wall in room.WallList)
+                    //{
+                    //    if (room.PosX >= wall.OriginX && room.PosX <= wall.EndX && (room.PosY + 1) == wall.OriginY)
+                    //    {
+                    //        return true;
+                    //    }
+                    //}
                     return false;
                 case "east":
                     foreach (Block blocks in room.BlockList)
@@ -195,6 +216,13 @@ namespace Code_Goblins
                             return true;
                         }
                     }
+                    //foreach (WallBlock wall in room.WallList)
+                    //{
+                    //    if ((room.PosX + 1) == wall.OriginX && room.PosY >= wall.OriginY && room.PosY <= wall.EndY)
+                    //    {
+                    //        return true;
+                    //    }
+                    //}
                     return false;
                 case "west":
                     foreach (Block blocks in room.BlockList)
@@ -204,9 +232,53 @@ namespace Code_Goblins
                             return true;
                         }
                     }
+                    //foreach (WallBlock wall in room.WallList)
+                    //{
+                    //    if ((room.PosX - 1) == wall.OriginX && room.PosY >= wall.OriginY && room.PosY <= wall.EndY)
+                    //    {
+                    //        return true;
+                    //    }
+                    //}
                     return false;
             }
             return false;
+        }
+
+        public string CheckBlockDirection (Room room, Block block)
+        {
+            if (room.PosX < block.PosX && room.PosY < block.PosY)
+            {
+                return "To your southeast";
+            }
+            if (room.PosX > block.PosX && room.PosY < block.PosY)
+            {
+                return "To your southwest";
+            }
+            else if (room.PosX > block.PosX && room.PosY > block.PosY)
+            {
+                return "To your northwest";
+            }
+            else if (room.PosX < block.PosX && room.PosY > block.PosY)
+            {
+                return "To your northeast";
+            }
+            else if (room.PosX > block.PosX && room.PosY == block.PosY)
+            {
+                return "To your west";
+            }
+            else if (room.PosX < block.PosX && room.PosY == block.PosY)
+            {
+                return "To your east";
+            }
+            else if (room.PosX == block.PosX && room.PosY > block.PosY)
+            {
+                return "To your north";
+            }
+            else if (room.PosX == block.PosX && room.PosY < block.PosY)
+            {
+                return "To your south";
+            }
+            return "There";
         }
     }
 }

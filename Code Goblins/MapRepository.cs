@@ -33,17 +33,18 @@ namespace Code_Goblins
 
             string player = PrintPlayerPosition(room);
 
-            string block = PrintBlockPositions(room);
+            Dictionary<int, string> blockLayers = PrintBlockPositions(room);
 
-            for (int i = 0; i <= (room.SizeY - 1); i++)
+            for (int i = 1; i <= room.SizeY; i++)
             {
-                if (i == (room.PosY - 1))
+                if (i == room.PosY)
                 {
                     Console.WriteLine(player);
                 }
-                else if (room.BlockList.Exists(b => (b.PosY - 1) == i))
+                else if (room.BlockList.Exists(b => b.PosY == i))
                 {
-                    Console.WriteLine(block);
+                    blockLayers.TryGetValue(i, out string currentLayer);
+                    Console.WriteLine(currentLayer);
                 }
                 else
                 {
@@ -60,7 +61,7 @@ namespace Code_Goblins
             string[] topWall = new string[(room.SizeX + 2)];
             for (int i = 0; i <= (room.SizeX + 1); i++)
             {
-                if(room.ExitList.Exists(e => e.PosX == i && e.PosY == 1 && e.North == true))
+                if (room.ExitList.Exists(e => e.PosX == i && e.PosY == 1 && e.North == true))
                 {
                     topWall[i] = "\u2550";
                     continue;
@@ -107,16 +108,9 @@ namespace Code_Goblins
             player[room.PosX] = "X";
             for (int i = 1; i <= (room.SizeX + 1); i++)
             {
-                if (room.BlockList.Exists(b => b.PosX == i) && room.BlockList.Exists(b => b.PosY == room.PosY))
+                if (room.BlockList.Exists(b => b.PosX == i && b.PosY == room.PosY))
                 {
-                    try
-                    {
-                        player[i] = room.BlockList.Find(b => b.PosX == i).Icon.ToString();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        continue;
-                    }
+                    player[i] = room.BlockList.Find(b => b.PosX == i && b.PosY == room.PosY).Icon.ToString();
                     continue;
                 }
                 else if (i == room.PosX)
@@ -130,15 +124,31 @@ namespace Code_Goblins
             return playerfull;
         }
 
-        public string PrintBlockPositions(Room room)
+        public Dictionary<int, string> PrintBlockPositions(Room room)
+        {
+            Dictionary<int, string> blockLayer = new Dictionary<int, string>();
+            string currentBlockLayer = "";
+            foreach (Block block in room.BlockList)
+            {
+                if (blockLayer.Keys.Contains(block.PosY))
+                {
+                    continue;
+                }
+                currentBlockLayer = PrintSingleBlockRow(room, block.PosY);
+                blockLayer.Add(block.PosY, currentBlockLayer);
+            }
+            return blockLayer;
+        }
+
+        public string PrintSingleBlockRow(Room room, int currentY)
         {
             string[] block = new string[(room.SizeX + 2)];
             block[0] = "\u2588";
             for (int i = 1; i <= (room.SizeX + 1); i++)
             {
-                if (room.BlockList.Exists(b => b.PosX == i))
+                if (room.BlockList.Exists(b => b.PosX == i && b.PosY == currentY))
                 {
-                    block[i] = room.BlockList.Find(b => b.PosX == i).Icon.ToString();
+                    block[i] = room.BlockList.Find(b => b.PosX == i && b.PosY == currentY).Icon.ToString();
                     continue;
                 }
                 block[i] = " ";
@@ -164,9 +174,23 @@ namespace Code_Goblins
             // description should fit into the sentence "To your {direction} is {description}."
             Block block1 = new Block(100, 'g', "a code goblin", true, 6, 2);
             Block block2 = new Block(101, 'J', "a javascript wizard", true, 8, 2);
+            Block block3 = new Block(102, 'G', "a gladiator developer", true, 8, 3);
+            Block wall1 = new Block(110, '\u2588', "", false, 7, 4);
+            Block wall2 = new Block(110, '\u2588', "", false, 8, 4);
+            Block wall3 = new Block(110, '\u2588', "", false, 9, 4);
+            Block wall4 = new Block(110, '\u2588', "", false, 10, 4);
+            Block wall5 = new Block(110, '\u2588', "", false, 11, 4);
+            Block wall6 = new Block(110, '\u2588', "", false, 12, 4);
             blocks.Add(block1);
             blocks.Add(block2);
-            
+            blocks.Add(block3);
+            blocks.Add(wall1);
+            blocks.Add(wall2);
+            blocks.Add(wall3);
+            blocks.Add(wall4);
+            blocks.Add(wall5);
+            blocks.Add(wall6);
+
             // room initilization: (room ID, exitlist, blocklist, room name that displays while in room, description when player hits v, room size X, room size Y)
             Room demoRoom = new Room(99, exits, blocks, "Demo Room", "You are in the demo. Whoa.", 12, 6);
             
@@ -178,8 +202,8 @@ namespace Code_Goblins
         {
             Exit cornerExit = new Exit(3, 1, true, false, false, false, 99, 12, 1);
             List<Exit> exits = new List<Exit>();
-            List<Block> blocks = new List<Block>();
             exits.Add(cornerExit);
+            List<Block> blocks = new List<Block>();
             Room hallOne = new Room(0, exits, blocks, "Entrance Hallway", "Your are leaving Gobo50.", 1, 1);
         }
 
@@ -188,9 +212,9 @@ namespace Code_Goblins
             Exit exitGame = new Exit(1, 2, false, true, false, false, 99, 12, 1);
             Exit cornerExit = new Exit(8, 1, true, false, false, false, 99, 11, 1);
             List<Exit> exits = new List<Exit>();
-            List<Block> blocks = new List<Block>();
             exits.Add(exitGame);
             exits.Add(cornerExit);
+            List<Block> blocks = new List<Block>();
             Room hallOne = new Room(1, exits, blocks, "Entrance Hallway", "Your are in the entrace to Gobo50.", 8, 2);
             roomDict.Add(hallOne.RoomID, hallOne);
         }
@@ -199,8 +223,8 @@ namespace Code_Goblins
         {
             Exit cornerExit = new Exit(1, 8, true, false, false, false, 99, 12, 1);
             List<Exit> exits = new List<Exit>();
-            List<Block> blocks = new List<Block>();
             exits.Add(cornerExit);
+            List<Block> blocks = new List<Block>();
             Room hallOne = new Room(2, exits, blocks, "Hallway", "It's a hallway.", 2, 8);
             roomDict.Add(hallOne.RoomID, hallOne);
         }
