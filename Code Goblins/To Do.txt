@@ -1,10 +1,5 @@
 ﻿Main Goals:
 
--Add Exits to PrintCurrentRoom and it's child methods
---Exits print correctly on top and bottom walls
---Will need to edit all methods that print side walls:
----(PrintCurrentRoom, PrintSideWalls, PrintPlayerPosition, PrintBlockPositions, PrintSingleBlockRow)
-
 -Add interaction switch case under PlayerControl method
 --Set up trigger system using Block IsTrigger bool and PlayerControl method to run a method based on BlockID
 --i.e. When the player hits the interact key "i" and they are next to a interactable block a method will run

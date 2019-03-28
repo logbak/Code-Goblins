@@ -41,6 +41,11 @@ namespace Code_Goblins
                 {
                     Console.WriteLine(player);
                 }
+                else if (room.ExitList.Exists(b => b.PosY == i))
+                {
+                    blockLayers.TryGetValue(i, out string currentLayer);
+                    Console.WriteLine(currentLayer);
+                }
                 else if (room.BlockList.Exists(b => b.PosY == i))
                 {
                     blockLayers.TryGetValue(i, out string currentLayer);
@@ -101,10 +106,43 @@ namespace Code_Goblins
             return sideWallsFull;
         }
 
+        //public string PrintSideExits(Room room, string roomSideWall, int currentY)
+        //{
+        //    char[] sideWalls = roomSideWall.ToCharArray();;
+        //    sideWalls[0] = '\u2588';
+        //    sideWalls[(room.SizeX + 1)] = '\u2588';
+        //    for (int i = 0; i <= (room.SizeX + 1); i++)
+        //    {
+        //        if (room.ExitList.Exists(e => e.PosY == currentY && e.West == true && i == 0))
+        //        {
+        //            sideWalls[0] = '\u2551';
+        //            continue;
+        //        }
+        //        else if (room.ExitList.Exists(e => e.PosY == currentY && e.East == true && i == (room.SizeX + 1)))
+        //        {
+        //            sideWalls[(room.SizeX + 1)] = '\u2551';
+        //            continue;
+        //        }
+        //        else if (i != 0 || i != (room.SizeX + 1))
+        //        {
+        //            sideWalls[i] = ' ';
+        //        }
+        //    }
+        //    string sideWallsFull = String.Join("", sideWalls);
+        //    return sideWallsFull;
+        //}
+
         public string PrintPlayerPosition(Room room)
         {
             string[] player = new string[(room.SizeX + 2)];
-            player[0] = "\u2588";
+            if (room.ExitList.Exists(e => e.PosY == room.PosY && e.PosX == 1 && e.West == true))
+            {
+                player[0] = "\u2551";
+            }
+            else
+            {
+                player[0] = "\u2588";
+            }
             player[room.PosX] = "X";
             for (int i = 1; i <= (room.SizeX + 1); i++)
             {
@@ -119,7 +157,14 @@ namespace Code_Goblins
                 }
                 player[i] = " ";
             }
-            player[(room.SizeX + 1)] = "\u2588";
+            if (room.ExitList.Exists(e => e.PosY == room.PosY && e.PosX == room.SizeX && e.East == true))
+            {
+                player[(room.SizeX + 1)] = "\u2551";
+            }
+            else
+            {
+                player[(room.SizeX + 1)] = "\u2588";
+            }
             string playerfull = String.Join("", player);
             return playerfull;
         }
@@ -128,6 +173,15 @@ namespace Code_Goblins
         {
             Dictionary<int, string> blockLayer = new Dictionary<int, string>();
             string currentBlockLayer = "";
+            foreach (Exit exit in room.ExitList)
+            {
+                if (blockLayer.Keys.Contains(exit.PosY))
+                {
+                    continue;
+                }
+                currentBlockLayer = PrintSingleBlockRow(room, exit.PosY);
+                blockLayer.Add(exit.PosY, currentBlockLayer);
+            }
             foreach (Block block in room.BlockList)
             {
                 if (blockLayer.Keys.Contains(block.PosY))
@@ -143,8 +197,23 @@ namespace Code_Goblins
         public string PrintSingleBlockRow(Room room, int currentY)
         {
             string[] block = new string[(room.SizeX + 2)];
-            block[0] = "\u2588";
-            for (int i = 1; i <= (room.SizeX + 1); i++)
+            if (room.ExitList.Exists(e => e.PosY == currentY && e.PosX == 1 && e.West == true))
+            {
+                block[0] = "\u2551";
+            }
+            else
+            {
+                block[0] = "\u2588";
+            }
+            if (room.ExitList.Exists(e => e.PosY == currentY && e.PosX == room.SizeX && e.East == true))
+            {
+                block[(room.SizeX + 1)] = "\u2551";
+            }
+            else
+            {
+                block[(room.SizeX + 1)] = "\u2588";
+            }
+            for (int i = 1; i <= room.SizeX; i++)
             {
                 if (room.BlockList.Exists(b => b.PosX == i && b.PosY == currentY))
                 {
@@ -153,7 +222,6 @@ namespace Code_Goblins
                 }
                 block[i] = " ";
             }
-            block[(room.SizeX + 1)] = "\u2588";
             string blockfull = String.Join("", block);
             return blockfull;
         }
@@ -165,8 +233,12 @@ namespace Code_Goblins
             // exit initilization:  (position X, position Y, 4 bools set direction of exit from position, sets room id to move to, new room position X, new room position Y)
             // note each exit represents a single exit door, only set one direction to true
             Exit demoExit = new Exit(11, 1, true, false, false, false, 1, 1, 2);
+            Exit demoExitOne = new Exit(12, 1, false, false, true, false, 1, 1, 2);
+            Exit demoExitTwo = new Exit(1, 4, false, false, false, true, 1, 1, 2);
             // each exit must be added to the exit list individually
             exits.Add(demoExit);
+            exits.Add(demoExitOne);
+            exits.Add(demoExitTwo);
 
             // adding blocks is the same as exits but with it's own list
             List<Block> blocks = new List<Block>();
