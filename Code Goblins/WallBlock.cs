@@ -10,26 +10,22 @@ namespace Code_Goblins
 
     public enum WallType { Top, Bottom, Side, Door, SideDoor}
 
-    public class WallBlock
+    public class WallBlock : Block
     {
         public WallType TypeOfWall { get; set; }
-        public char Icon { get; set; }
-        public bool IsTrigger { get; set; }
-        public int OriginX { get; set; }
-        public int OriginY { get; set; }
-        public int EndX { get; set; }
-        public int EndY { get; set; }
+        public int WidthX { get; set; }
+        public int HeightY { get; set; }
 
         public WallBlock(){}
 
-        public WallBlock(WallType typeOfWall, bool isTrigger, int originX, int originY, int endX, int endY)
+        public WallBlock(WallType typeOfWall, bool isTrigger, int posX, int posY, int widthX, int heightY)
         {
             TypeOfWall = typeOfWall;
             IsTrigger = isTrigger;
-            OriginX = originX;
-            OriginY = originY;
-            EndX = endX;
-            EndY = endY;
+            PosX = posX;
+            PosY = posY;
+            WidthX = widthX;
+            HeightY = heightY;
             switch (typeOfWall)
             {
                 case WallType.Top:
