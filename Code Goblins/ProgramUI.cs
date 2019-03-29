@@ -9,6 +9,7 @@ namespace Code_Goblins
     public class ProgramUI
     {
         MapRepository mapRepo = new MapRepository();
+        RoomRepository roomRepo = new RoomRepository();
         PlayerRepository playerRepo = new PlayerRepository();
 
         public void Run()
@@ -34,7 +35,7 @@ namespace Code_Goblins
             Console.Clear();
             Console.ResetColor();
             Room room = new Room();
-            room = mapRepo.GetRoomByID(99);
+            room = roomRepo.GetRoomByID(99);
             // x1, y1 is the upper left corner of the room
             room.PosX = 1;
             room.PosY = 1;

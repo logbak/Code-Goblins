@@ -9,6 +9,7 @@ namespace Code_Goblins
     public class PlayerRepository
     {
         MapRepository mapRepo = new MapRepository();
+        RoomRepository roomRepo = new RoomRepository();
 
         public PlayerRepository(){}
         
@@ -48,7 +49,7 @@ namespace Code_Goblins
                     else if (CheckExits(room, "north") != null)
                     {
                         Exit currentExit = CheckExits(room, "north");
-                        Room newRoom = mapRepo.GetRoomByID(currentExit.GoToID);
+                        Room newRoom = roomRepo.GetRoomByID(currentExit.GoToID);
                         newRoom.PosX = currentExit.NewPosX;
                         newRoom.PosY = currentExit.NewPosY;
                         return newRoom;
@@ -68,7 +69,7 @@ namespace Code_Goblins
                     else if (CheckExits(room, "south") != null)
                     {
                         Exit currentExit = CheckExits(room, "south");
-                        Room newRoom = mapRepo.GetRoomByID(currentExit.GoToID);
+                        Room newRoom = roomRepo.GetRoomByID(currentExit.GoToID);
                         newRoom.PosX = currentExit.NewPosX;
                         newRoom.PosY = currentExit.NewPosY;
                         return newRoom;
@@ -88,7 +89,7 @@ namespace Code_Goblins
                     else if (CheckExits(room, "west") != null)
                     {
                         Exit currentExit = CheckExits(room, "west");
-                        Room newRoom = mapRepo.GetRoomByID(currentExit.GoToID);
+                        Room newRoom = roomRepo.GetRoomByID(currentExit.GoToID);
                         newRoom.PosX = currentExit.NewPosX;
                         newRoom.PosY = currentExit.NewPosY;
                         return newRoom;
@@ -108,7 +109,7 @@ namespace Code_Goblins
                     else if (CheckExits(room, "east") != null)
                     {
                         Exit currentExit = CheckExits(room, "east");
-                        Room newRoom = mapRepo.GetRoomByID(currentExit.GoToID);
+                        Room newRoom = roomRepo.GetRoomByID(currentExit.GoToID);
                         newRoom.PosX = currentExit.NewPosX;
                         newRoom.PosY = currentExit.NewPosY;
                         return newRoom;
